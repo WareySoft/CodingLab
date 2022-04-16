@@ -72,7 +72,7 @@ class _VirtualOrderState extends State<VirtualOrder> {
                   textAlign: TextAlign.start,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
-                    hintText: "Search for Hotel, Flight...",
+                    hintText: "Search.",
                     prefixIcon: Icon(
                       Icons.search,
                       color: Colors.black54,
