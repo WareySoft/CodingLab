@@ -99,6 +99,7 @@ class _SearchPageState extends State<SearchPage> {
                 backgroundImage: AssetImage('assets/avatar.png'),
 
               ),
+<<<<<<< HEAD
               itemBuilder: (BuildContext context) {
                 return [
                   PopupMenuItem<String> (
@@ -138,6 +139,22 @@ class _SearchPageState extends State<SearchPage> {
                   borderSide: const BorderSide(
                     width: 0,
                     style: BorderStyle.none,
+=======
+              Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(30.0),
+                shadowColor: Color(0x55434343),
+                child: const TextField(
+                  textAlign: TextAlign.start,
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    hintText: "Search.",
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.black54,
+                    ),
+                    border: InputBorder.none,
+>>>>>>> f62ea21585e5439bc5c32f56deca06b1052bfcd6
                   ),
                 ),
 
