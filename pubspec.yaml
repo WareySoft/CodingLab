@@ -62,6 +62,24 @@ flutter:
      - assets/logo.png
      - assets/google.png
      - assets/facebook.png
+     - assets/restaurant.png
+     - assets/bar.png
+     - assets/coffeeshop.png
+     - assets/avatar.png
+     - assets/path.png
+     - assets/places/barista.jpg
+     - assets/places/cloud9.jpg
+     - assets/places/farhi.jpg
+     - assets/places/hilton.jpg
+     - assets/places/la_riviere.jpg
+     - assets/places/mojo.jpg
+     - assets/places/ozen.jpg
+     - assets/places/ritz_carlt.jpg
+     - assets/places/st_regis.jpg
+     - assets/places/wiskey.jpg
+
+
+
   fonts:
      - family: Poppins-Medium
        fonts:

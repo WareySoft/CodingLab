@@ -36,7 +36,6 @@ Widget placeCard(
             children: [
               Row(
                 children: [
-                  //this loop will allow us to add as many star as the rating
                   for (var i = 0; i < rating; i++)
                     Icon(
                       Icons.star,
