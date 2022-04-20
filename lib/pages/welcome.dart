@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Welcome(),
-  ));
-}
 
 
 class Welcome extends StatefulWidget {
@@ -33,6 +27,9 @@ class _WelcomeState extends State<Welcome> {
           Container(
             margin: const EdgeInsets.fromLTRB(0,100 , 0 , 10 ),
             child: ElevatedButton(
+              onPressed: (){
+                Navigator.pushReplacementNamed(context, "/signup");
+              },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -42,7 +39,6 @@ class _WelcomeState extends State<Welcome> {
                 padding: EdgeInsets.fromLTRB(100, 15, 100, 15),
                 child: Text('Sign up', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(0, 0, 0, 1.0),),),
               ),
-              onPressed: () {},
 
             ),
             // // for shadow of container
@@ -57,13 +53,15 @@ class _WelcomeState extends State<Welcome> {
           Container(
             margin: EdgeInsets.fromLTRB(0,20 , 0 , 20 ),
             child: FlatButton(
+              onPressed: (){
+                Navigator.pushReplacementNamed(context, "/login");
+              },
               height: 50,
               child: Text('  Log in  ', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, ), ),
               shape: Border(
                   bottom: BorderSide(color: Colors.white70, width: 1)
               ),
               textColor: Colors.white,
-              onPressed: () {},
             ),
           ),
 

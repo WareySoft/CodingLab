@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    theme: ThemeData(
 
-      primarySwatch: Colors.blueGrey,
-    ),
-    debugShowCheckedModeBanner: false,
-    home: Login(),
-  ));
-}
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -55,7 +46,9 @@ class _LoginState extends State<Login> {
             children: [
               Padding(
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/");
+                  },
                   icon: const Icon(
                     Icons.arrow_back,
                     color: Colors.black,
@@ -149,6 +142,7 @@ class _LoginState extends State<Login> {
                     child: Text('Log in', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                   ),
                   onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/login");
                     print(nameController.text);
                     print(passwordController.text);
                   },

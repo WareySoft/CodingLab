@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:codinglab/placeCard.dart';
 
 
-void main() {
-  runApp(MaterialApp(
+// void main() {
+//   runApp(MaterialApp(
+//
+//     debugShowCheckedModeBanner: false,
+//     home: Home(),
+//   ));
+// }
 
-    debugShowCheckedModeBanner: false,
-    home: VirtualOrder(),
-  ));
-}
-
-class VirtualOrder extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _VirtualOrderState createState() => _VirtualOrderState();
+  _HomeState createState() => _HomeState();
 }
 
-class _VirtualOrderState extends State<VirtualOrder> {
+class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   int _selectedTab = 0;
 

@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    theme: ThemeData(
 
-      primarySwatch: Colors.blueGrey,
-    ),
-    debugShowCheckedModeBanner: false,
-    home: Login(),
-  ));
-}
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Signup extends StatefulWidget {
+  const Signup({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _SignupState createState() => _SignupState();
 
 
 }
 
-class _LoginState extends State<Login> {
+class _SignupState extends State<Signup> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordWriter = TextEditingController();
@@ -53,7 +44,9 @@ class _LoginState extends State<Login> {
             children: [
               Padding(
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/");
+                  },
                   icon: const Icon(
                     Icons.arrow_back,
                     color: Colors.black,
@@ -159,6 +152,7 @@ class _LoginState extends State<Login> {
                     child: Text('Sign up', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                   ),
                   onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/home");
                     print(nameController.text);
                     print(passwordWriter.text);
                     print(passwordChecker.text);
