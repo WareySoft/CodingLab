@@ -1,10 +1,9 @@
-//Now we will create our custom widget card
+import 'package:codinglab/pages/menu.dart';
 import 'package:flutter/material.dart';
 
-Widget placeCard(
-    String imgUrl, String hotelName, String location, int rating) {
-  return Card(
+Widget placeCard(BuildContext context, String imgUrl, String hotelName, String location, int rating) {
 
+  return Card(
     margin: EdgeInsets.only(right: 22.0),
     clipBehavior: Clip.antiAlias,
     shape: RoundedRectangleBorder(
@@ -17,13 +16,15 @@ Widget placeCard(
     ),
     elevation: 0.0,
     child: InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Menu()));
+      },
       child: Container(
 
         decoration: BoxDecoration(
 
             image: DecorationImage(
-              image: NetworkImage(imgUrl),
+              image: AssetImage(imgUrl),
               fit: BoxFit.cover,
               scale: 2.0,
             )),

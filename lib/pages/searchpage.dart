@@ -59,22 +59,11 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0.0,
         backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            Padding(
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                ),
-              ),
-              padding: EdgeInsets.only(top:10),
-            ),
-          ],
-        ),
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.black), // 1
+
+
         actions: <Widget>[
           Container(
             width: 85,

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:codinglab/user_model.dart';
 
 
 class Signup extends StatefulWidget {
@@ -30,6 +33,34 @@ class _SignupState extends State<Signup> {
     setState(() {
       _isHidden2 = !_isHidden2;
     });
+  }
+
+  final _auth = FirebaseAuth.instance;
+
+  postDetailsToFirestore() async {
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    print( "Account created successfully :) ");
+
+    await firebaseFirestore
+        .collection("history")
+        .doc(user.uid)
+        .set({"history" : [], "email" : user.email
+    });
+    print( "History created successfully :) ");
+
+
   }
 
 
@@ -152,7 +183,21 @@ class _SignupState extends State<Signup> {
                     child: Text('Sign up', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "/home");
+
+                    FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                        email: nameController.text.trim(), password: passwordWriter.text.trim()
+                    )
+                        .then((value){
+                      print("Created New Account");
+                      postDetailsToFirestore();
+                      Navigator.pushReplacementNamed(context, "/navigation");
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    } );
+
+
+
                     print(nameController.text);
                     print(passwordWriter.text);
                     print(passwordChecker.text);

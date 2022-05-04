@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "105115411276",
+    "project_id": "virtual-order-2a655",
+    "storage_bucket": "virtual-order-2a655.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105115411276:android:f49db15e0081851c20e5e9",
+        "android_client_info": {
+          "package_name": "com.virtualbooking.codinglab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105115411276-8n2bo9d6t73jf51rdgk3vcsoccgg4r7m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.virtualbooking.codinglab",
+            "certificate_hash": "cddd95de93fed3c0cb2602d8975d2bbf7353caae"
+          }
+        },
+        {
+          "client_id": "105115411276-caiv1nc2h3niiqlpvlf3aieuf3u4igk9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDudnZke5Sx-4xmOjCS4pHNixAat3BWthc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105115411276-caiv1nc2h3niiqlpvlf3aieuf3u4igk9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

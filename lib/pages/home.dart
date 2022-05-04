@@ -10,71 +10,36 @@ import 'package:codinglab/placeCard.dart';
 //   ));
 // }
 
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
+
   int _selectedTab = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
   List<String> urls = [
-    "https://d3aux7tjp119y2.cloudfront.net/original_images/Tak2-CMSTemplate_IrMZHla.jpg",
-    "https://d3aux7tjp119y2.cloudfront.net/original_images/Tak2-CMSTemplate_IrMZHla.jpg",
-    "https://d3aux7tjp119y2.cloudfront.net/original_images/Tak2-CMSTemplate_IrMZHla.jpg",
-    "https://d3aux7tjp119y2.cloudfront.net/original_images/Tak2-CMSTemplate_IrMZHla.jpg",
-    "https://d3aux7tjp119y2.cloudfront.net/original_images/Tak2-CMSTemplate_IrMZHla.jpg",
-    "https://d3aux7tjp119y2.cloudfront.net/original_images/Tak2-CMSTemplate_IrMZHla.jpg",
+    'assets/places/ritz_carlt.jpg',
+    'assets/places/farhi.jpg',
+    'assets/places/hilton.jpg',
+    'assets/places/la_riviere.jpg',
+    'assets/places/cloud9.jpg',
+    'assets/places/barista.jpg',
+    'assets/places/wiskey.jpg',
+    'assets/places/mojo.jpg',
+    'assets/places/ozen.jpg',
+    'assets/places/st_regis.jpg',
   ];
+
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        title: Center(
-          child: Column(
-            children: [
-              Padding(
-                child: Text("Home", style: TextStyle(color: Color.fromRGBO(9, 10, 10, 1), fontFamily: 'Poppins-Medium', fontSize: 24),),
-                padding: EdgeInsets.only(top:0,left:82),
-              ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          Container(
-            width: 85,
-            child: PopupMenuButton(
-              icon: CircleAvatar(
-                backgroundImage: AssetImage('assets/avatar.png'),
 
-              ),
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem<String> (
-                    value: '1',
-                    child: Text('1'),
-                  ),
-                  PopupMenuItem<String> (
-                    value: '2',
-                    child: Text('2'),
-                  ),
-                ];
-              },
-            ),
-          )
-        ],
-      ),
       resizeToAvoidBottomInset: false,
 
       body: Container(
@@ -92,9 +57,13 @@ class _HomeState extends State<Home> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top:0 , bottom:8.0 , left:24 , right:24  ),
-                child: SizedBox( // <-- SEE HERE
+                child: SizedBox(
                   width: 600,
                   child: TextField(
+                    readOnly: true,
+                    onTap: (){
+                      Navigator.pushNamed(context, "/searchpage");
+                    },
                     style: TextStyle(fontSize: 17, color: Color.fromRGBO(28, 36, 57, 1), fontFamily: 'Poppins-Medium', ),
 
                     decoration: InputDecoration(
@@ -273,10 +242,10 @@ class _HomeState extends State<Home> {
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  placeCard(urls[1], "Name of place", "Location", 4),
-                                  placeCard(urls[2], "Name of place", "Location", 4),
-                                  placeCard(urls[3], "Name of place", "Location", 4),
-                                  placeCard(urls[3], "Name of place", "Location", 4),
+                                  placeCard(context, urls[0], "Ritz Carlton", "Dostyk Street 16", 5),
+                                  placeCard(context, urls[1], "Farhi", "Mambetov St 3", 4),
+                                  placeCard(context, urls[2], "Hilton", "Sauran St 46", 4),
+                                  placeCard(context, urls[3], "Riviere", "Kabanbay Batyr Ave", 4),
                                 ],
                               ),
                             ),
@@ -284,9 +253,9 @@ class _HomeState extends State<Home> {
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  placeCard(urls[3], "Name of place", "Location", 4),
-                                  placeCard(urls[3], "Name of place", "Location", 4),
-                                  placeCard(urls[3], "Name of place", "Location", 4),
+                                  placeCard(context, urls[4], "Cloud", "Sauran St 46", 4),
+                                  placeCard(context, urls[5], "Barista", "Beibitshilik St 23", 3),
+                                  placeCard(context, urls[6], "Wiskey", "Qabanbay Batyr Ave", 5),
                                 ],
                               ),
                             ),
@@ -295,9 +264,9 @@ class _HomeState extends State<Home> {
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  placeCard(urls[3], "Name of place", "Location", 4),
-                                  placeCard(urls[3], "Name of place", "Location", 4),
-                                  placeCard(urls[3], "Name of place", "Location", 4),
+                                  placeCard(context, urls[7], "Mojo", "Yengbekshiler St 17", 5),
+                                  placeCard(context, urls[8], "Ozen", "Prospekt Mangilik Yel", 5),
+                                  placeCard(context, urls[9], "Becky", "Haileybury Astana", 4),
                                 ],
                               ),
                             ),
@@ -314,64 +283,8 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        transform: Matrix4.translationValues(0, 32, 0),
 
-        child: Container(
-            height: 87,
-            margin: EdgeInsets.only(left: 16, right: 16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(50), topLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50), bottomLeft: Radius.circular(50)
-              ),
 
-              boxShadow: [
-                BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(50.0),
-                topRight: Radius.circular(50.0),
-                bottomLeft: Radius.circular(50.0),
-                bottomRight: Radius.circular(50.0),
-              ),
-              child: BottomNavigationBar(
-                iconSize: 26,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                type: BottomNavigationBarType.fixed, // Fixed
-                backgroundColor: Color.fromRGBO(0, 62, 41, 1),
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: EdgeInsets.only(bottom: 23.0),
-                        child: Icon(Icons.home_filled),
-                      ),label: 'Home'
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: EdgeInsets.only(bottom: 23.0),
-                        child: Icon(Icons.bookmark),
-                      ),label: 'Favourite'
-                  ),BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: EdgeInsets.only(bottom: 23.0),
-                        child: Icon(Icons.history),
-                      ),label: 'History'
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                unselectedItemColor: Colors.white38,
-                selectedItemColor: Colors.white,
-                onTap: _onItemTapped,
-
-              ),
-            )
-        ),
-
-      ),
     );
   }
 }

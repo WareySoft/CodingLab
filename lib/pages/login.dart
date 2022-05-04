@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -142,9 +141,17 @@ class _LoginState extends State<Login> {
                     child: Text('Log in', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "/login");
-                    print(nameController.text);
-                    print(passwordController.text);
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                        email: nameController.text.trim(), password: passwordController.text.trim()
+                    ).then((value) {
+                      print("Logged in");
+                      Navigator.pushReplacementNamed(context, "/navigation");
+
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    } );
+
                   },
 
                 ),

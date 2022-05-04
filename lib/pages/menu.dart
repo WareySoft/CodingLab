@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/services.dart';
+import 'package:codinglab/pages/reserve.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -8,10 +9,10 @@ void main() {
       statusBarColor: Colors.transparent,
     ),
   );
-  runApp(MyApp());
+  runApp(Menu());
 }
 
-class MyApp extends StatelessWidget {
+class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -299,7 +300,16 @@ class _CarouselExampleState extends State<CarouselExample> {
                 ),
               ),
             ],),
-        )
+        ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: const Color.fromRGBO(0, 62, 41, 1),
+        foregroundColor: Colors.white,
+        label: Text('  RESERVE  ', ),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Reserve()));
+        },
+
+      )
     );
   }
 }
