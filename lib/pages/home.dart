@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:codinglab/placeCard.dart';
+import 'package:codinglab/main.dart';
+import 'package:codinglab/pages/navigation.dart';
 
 
 // void main() {
@@ -36,9 +40,12 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    Color textcolt =   MyApp.themeNotifier.value == ThemeMode.light ? Color.fromRGBO(0, 62, 41, 1): Colors.white;
+
+    double width = MediaQuery. of(context). size. width;
+    double height = MediaQuery. of(context). size. height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
 
       resizeToAvoidBottomInset: false,
 
@@ -52,13 +59,13 @@ class _HomeState extends State<Home> {
             children: [
 
 
-              const SizedBox(
-                height: 7.8,
+              SizedBox(
+                height: height*0.0115,
               ),
               Padding(
                 padding: const EdgeInsets.only(top:0 , bottom:8.0 , left:24 , right:24  ),
                 child: SizedBox(
-                  width: 600,
+                  width: width,
                   child: TextField(
                     readOnly: true,
                     onTap: (){
@@ -74,23 +81,21 @@ class _HomeState extends State<Home> {
                         borderSide:  BorderSide(color: Colors.white, width: 1),
                       ),
 
-                      fillColor: Color.fromRGBO(221, 242, 235, 1),
-                      filled: true,
                       contentPadding: EdgeInsets.symmetric(vertical: 18, horizontal: 20),
                     ),
 
                   ),
                 ),
               ),
-              SizedBox(height: 6.5),
+              SizedBox(height: height*0.01),
 
               Padding(
                 padding: const EdgeInsets.only(left: 35.0),
                 child: Text('Category', style:TextStyle(fontFamily: 'Poppins-Medium',
-                  fontSize: 17.5,fontWeight: FontWeight.bold, color: Color.fromRGBO(0, 62, 41, 1),),),
+                  fontSize: 17.5,fontWeight: FontWeight.bold, color: textcolt,),),
               ),
 
-              SizedBox(height: 5.0),
+              SizedBox(height: height*0.008),
 
 
 
@@ -126,8 +131,8 @@ class _HomeState extends State<Home> {
 
                         tabs: [
                           Container(
-                            padding: EdgeInsets.all(2),
-                            width: 130,
+                            padding: EdgeInsets.all(height*0.003),
+                            width: width*0.32,
                             decoration:  BoxDecoration(
                               border: Border.all(color: _selectedTab == 0 ? Color.fromRGBO(0, 62, 41, 1) : Colors.black12),
                               color: Color.fromRGBO(255, 246, 245, 1),
@@ -148,8 +153,8 @@ class _HomeState extends State<Home> {
                             child: Center(
                               child: Column(children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Image.asset('assets/restaurant.png', height: 40, width: 40,),
+                                  padding:  EdgeInsets.all(height*0.0075),
+                                  child: Image.asset('assets/restaurant.png', height: height*0.059, width: width*0.1,),
                                 ),
                                 Text("Restaurant"),
                               ],) ,
@@ -157,8 +162,8 @@ class _HomeState extends State<Home> {
                           ),
 
                           Container(
-                            padding: EdgeInsets.all(2),
-                            width: 130,
+                            padding: EdgeInsets.all(height*0.003),
+                            width: width*0.32,
                             decoration:  BoxDecoration(
                               border: Border.all(color: _selectedTab == 1 ? Color.fromRGBO(0, 62, 41, 1): Colors.black12),
                               color: Color.fromRGBO(255, 246, 245, 1),
@@ -179,8 +184,8 @@ class _HomeState extends State<Home> {
                             child: Center(
                               child: Column(children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(0),
-                                  child: Image.asset('assets/bar.png', height: 50, width: 50,),
+                                  padding:  EdgeInsets.all(height*0.0075),
+                                  child: Image.asset('assets/bar.png', height: height*0.059, width: width*0.12,),
                                 ),
                                 Text("Bar"),
                               ],) ,
@@ -188,8 +193,8 @@ class _HomeState extends State<Home> {
                           ),
 
                           Container(
-                            padding: EdgeInsets.all(2),
-                            width: 130,
+                            padding: EdgeInsets.all(height*0.003),
+                            width: width*0.32,
                             decoration:  BoxDecoration(
                               border: Border.all(color: _selectedTab == 2 ? Color.fromRGBO(0, 62, 41, 1): Colors.black12),
                               color: Color.fromRGBO(255, 246, 245, 1),
@@ -210,8 +215,8 @@ class _HomeState extends State<Home> {
                             child: Center(
                               child: Column(children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(0),
-                                  child: Image.asset('assets/coffeeshop.png', height: 50, width: 50,),
+                                  padding:  EdgeInsets.all(height*0.0075),
+                                  child: Image.asset('assets/coffeeshop.png', height: height*0.059, width: width*0.12,),
                                 ),
                                 Text("Coffee Shop"),
                               ],) ,
@@ -221,21 +226,21 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: height*0.0075,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 200),
 
                       child: Text('Recomendation', style:TextStyle(fontFamily: 'Poppins-Medium',
-                        fontSize: 17.5,fontWeight: FontWeight.bold, color: Color.fromRGBO(0, 62, 41, 1),),),
+                        fontSize: 17.5,fontWeight: FontWeight.bold, color: textcolt),),
                     ),
-                    const SizedBox(
-                      height: 7.0,
+                     SizedBox(
+                      height: height*0.0102,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top:0 , bottom:0 , left:14 , right:14  ),
                       child: Container(
-                        height: 265.0,
+                        height: height*0.4,
                         child: TabBarView(
                           children: [
                             Container(
@@ -259,6 +264,8 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                             ),
+
+
 
                             Container(
                               child: ListView(

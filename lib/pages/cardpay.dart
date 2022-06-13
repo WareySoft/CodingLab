@@ -7,23 +7,26 @@ import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:codinglab/pages/navigation.dart';
+import 'package:codinglab/main.dart';
 
-
+import 'package:codinglab/placeCard.dart';
 
 
 class CardPay extends StatefulWidget {
   var data;
   var time;
   var total;
+  var hotelName;
 
-  CardPay(String total, String time, String data){
+  CardPay(String total, String time, String data, String hotelName){
     this.total = total;
     this.time = time;
     this.data = data;
+    this.hotelName = hotelName;
   }
   @override
   State<StatefulWidget> createState() {
-    return CardPayState(total,time, data);
+    return CardPayState(total,time, data, hotelName);
   }
 }
 
@@ -32,11 +35,13 @@ class CardPayState extends State<CardPay> {
   var data;
   var time;
   var total;
+  var hotelName;
 
-  CardPayState(String total, String time, String data){
+  CardPayState(String total, String time, String data, String hotelName){
     this.total = total;
     this.time = time;
     this.data = data;
+    this.hotelName = hotelName;
   }
 
 
@@ -55,7 +60,7 @@ class CardPayState extends State<CardPay> {
 
 
 
-    writeHistory(String total, String time, String data) async {
+    writeHistory(String total, String time, String data, String hotelName) async {
 
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
       User? user = _auth.currentUser;
@@ -68,6 +73,7 @@ class CardPayState extends State<CardPay> {
         {"date" : data,
           "time" : time,
           "table": total,
+          "nameofplace": hotelName,
         }
       ])});
 
@@ -77,7 +83,7 @@ class CardPayState extends State<CardPay> {
 
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
-          Navigation()));
+          Navigation(0)));
 
 
       print( "Posted HISTORY ");
@@ -85,12 +91,15 @@ class CardPayState extends State<CardPay> {
 
     }
 
+    Color textcol = MyApp.themeNotifier.value == ThemeMode.light ? Colors.black : Colors.white;
+    double width = MediaQuery. of(context). size. width;
+    double height = MediaQuery. of(context). size. height;
     return  Scaffold(
-      backgroundColor: Color.fromRGBO(229, 229, 229, 1.0),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(229, 229, 229, 1.0),
+        backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.black),
+
       ),
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -115,28 +124,29 @@ class CardPayState extends State<CardPay> {
                       onCreditCardModelChange: onCreditCardModelChange,
                       obscureCvv: true,
                       obscureNumber: true,
-                      cardNumberDecoration: const InputDecoration(
+                      textColor: textcol,
+                      cardNumberDecoration:  InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Number',
-                        hintText: 'XXXX XXXX XXXX XXXX',
+                        labelText: 'Number',labelStyle: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 18.0, color: textcol,),
+                        hintText: 'XXXX XXXX XXXX XXXX', hintStyle: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15.0, color: textcol,),
                       ),
-                      expiryDateDecoration: const InputDecoration(
+                      expiryDateDecoration:  InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Expired Date',
-                        hintText: 'XX/XX',
+                        labelText: 'Expired Date',labelStyle: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 18.0, color: textcol,),
+                        hintText: 'XX/XX',hintStyle: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15.0, color: textcol,),
 
                       ),
-                      cvvCodeDecoration: const InputDecoration(
+                      cvvCodeDecoration:  InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'CVV',
-                        hintText: 'XXX',
+                        labelText: 'CVV',labelStyle: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 18.0, color: textcol,),
+                        hintText: 'XXX',hintStyle: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15.0, color: textcol,),
                       ),
-                      cardHolderDecoration: const InputDecoration(
+                      cardHolderDecoration:  InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Card Holder Name',
+                        labelText: 'Card Holder Name', labelStyle: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 18.0, color: textcol,),
                       ), expiryDate: '', themeColor: Colors.green, cardNumber: '', cardHolderName: '', cvvCode: '',
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: height*0.03,),
                     Container(
                       width: MediaQuery. of(context). size. width *0.9,
                       child: ElevatedButton(
@@ -151,7 +161,8 @@ class CardPayState extends State<CardPay> {
                           child: Text('Pay', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                         ),
                         onPressed: () {
-                          writeHistory(total, time, data);
+                          writeHistory(total, time, data, hotelName);
+                          //print(name); // reads from placeCard.dart
                         },
                       ),
                     ),

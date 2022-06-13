@@ -66,6 +66,9 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery. of(context). size. width;
+    double height = MediaQuery. of(context). size. height;
+
     return Scaffold(
         backgroundColor: Color.fromRGBO(229, 229, 229, 1.0),
         appBar: AppBar(
@@ -88,7 +91,7 @@ class _SignupState extends State<Signup> {
 
               Padding(
                 child: Text("Sign up", style: TextStyle(color: Color.fromRGBO(9, 10, 10, 1), fontFamily: 'Poppins-Medium', fontSize: 24),),
-                padding: EdgeInsets.only(top:10,left:100),
+                padding: EdgeInsets.only(top:10,left:width*0.244),
               ),
 
             ],
@@ -98,7 +101,7 @@ class _SignupState extends State<Signup> {
         /////////////////////////////////////////////////////////////////////////////////
 
         body: SingleChildScrollView( child: Center(child: Padding(
-            padding: EdgeInsets.fromLTRB(30, 30, 30, 50),
+            padding: EdgeInsets.fromLTRB(30, 20, 30, 50),
             child: Column(children: [
               SizedBox( // <-- SEE HERE
                 width: 600,
@@ -119,7 +122,7 @@ class _SignupState extends State<Signup> {
                 ),
               ),
 
-              SizedBox(height: 15),
+              SizedBox(height: height*0.022),
 
               SizedBox( // <-- SEE HERE
                 width: 600,
@@ -143,7 +146,7 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: height*0.022),
 
               SizedBox( // <-- SEE HERE
                 width: 600,
@@ -167,7 +170,7 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
               ),
-              SizedBox(height:40),
+              SizedBox(height:height*0.059),
 
               SizedBox(
                 width: 600,
@@ -178,8 +181,8 @@ class _SignupState extends State<Signup> {
                       borderRadius: BorderRadius.circular(10.0),
 
                     ),),
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(110, 13, 110, 13),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(width *0.268, 13, width *0.268, 13),
                     child: Text('Sign up', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                   ),
                   onPressed: () {
@@ -193,7 +196,25 @@ class _SignupState extends State<Signup> {
                       postDetailsToFirestore();
                       Navigator.pushReplacementNamed(context, "/navigation");
                     }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
+
+                      String text = error.toString().replaceAll(RegExp('\\[.*?\\]'), '');
+                      final snackBar = SnackBar(
+                        content: Container(
+                          child: Text(
+                            text,
+                            style: TextStyle(fontSize: 24),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        backgroundColor: Colors.grey,
+                        duration: Duration(seconds: 2),
+                        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                        behavior: SnackBarBehavior.floating,
+                        elevation: 0,
+
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } );
 
 
@@ -206,7 +227,7 @@ class _SignupState extends State<Signup> {
                 ),
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: height*0.059),
               Row(
                   children: const [
                     Expanded(
@@ -222,7 +243,7 @@ class _SignupState extends State<Signup> {
                     ),
                   ]
               ),
-              SizedBox(height: 38),
+              SizedBox(height: height*0.058),
               SizedBox(
                 width: 600,
                 child: OutlinedButton(
@@ -243,7 +264,7 @@ class _SignupState extends State<Signup> {
                   onPressed: () {},
                 ),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: height*0.022),
               SizedBox(
                 width: 600,
                 child: OutlinedButton(

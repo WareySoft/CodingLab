@@ -5,84 +5,51 @@ import 'package:codinglab/pages/home.dart';
 import 'package:codinglab/pages/favorites.dart';
 import 'package:codinglab/pages/history.dart';
 import 'package:codinglab/pages/profile.dart';
+import 'package:codinglab/main.dart';
 
 
-void main() {
-  runApp(MaterialApp(
-    theme: ThemeData(
-      primarySwatch:  Colors.green,
-    ),
-    debugShowCheckedModeBanner: false,
-    home: Navigation(),
-  ));
-}
-
+//
+// void main() {
+//   runApp(MaterialApp(
+//     theme: ThemeData(
+//       primarySwatch:  Colors.green,
+//     ),
+//     debugShowCheckedModeBanner: false,
+//     home: Navigation(),
+//   ));
+// }
 
 class Navigation extends StatefulWidget {
+  int page =0;
+  Navigation(int page){
+    this.page = page;
+  }
   @override
-  _NavigationState createState() => _NavigationState();
+  _NavigationState createState() => _NavigationState(page);
 }
 
 class _NavigationState extends State<Navigation> {
-
-  final _auth = FirebaseAuth.instance;
-
-  showHistory() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-
-
-    int  length = await  firebaseFirestore
-        .collection("history")
-        .doc(user?.uid).get().then((s) => s.data()!['history'].length );
-
-    List<Location> array= [];
-
-    for(int i = 0; i < length; i++ ){
-      String x, y, z;
-      x = await firebaseFirestore
-          .collection("history")
-          .doc(user?.uid).get().then((s) => s.data()!['history'][i]['date'].toString());
-      y = await firebaseFirestore
-          .collection("history")
-          .doc(user?.uid).get().then((s) => s.data()!['history'][i]['time'].toString());
-      z = await firebaseFirestore
-          .collection("history")
-          .doc(user?.uid).get().then((s) => s.data()!['history'][i]['table'].toString());
-
-      array.add(Location(date:x, time:y, table:z));
-    }
-
-
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
-        History(length, array)));
-    print( "showHistory ACTIVATED");
+  int _selectedIndex =0;
+  _NavigationState(int page){
+    _selectedIndex = page;
   }
-
-
-
-  final screens = [
-    Home(),
-    Favorites(),
-  ];
-
-  int _selectedIndex = 0;
-
 
 
 
 
   @override
   Widget build(BuildContext context) {
-
+    Color textcol =   MyApp.themeNotifier.value == ThemeMode.light ? Colors.black : Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
-        title: _selectedIndex < 1 ? Text( "Home", style: TextStyle(color: Color.fromRGBO(9, 10, 10, 1), fontFamily: 'Poppins-Medium', fontSize: 24),) :
-        Text(_selectedIndex == 1 ?  "Favorites" : "History", style: TextStyle(color: Color.fromRGBO(9, 10, 10, 1), fontFamily: 'Poppins-Medium', fontSize: 24),),
+        backgroundColor: MyApp.themeNotifier.value == ThemeMode.light
+            ? Colors.white
+            : Colors.black12 ,
+
+        title: _selectedIndex < 1 ? Text( "Home", style: TextStyle(color: textcol, fontFamily: 'Poppins-Medium', fontSize: 24),) :
+        Text(_selectedIndex == 1 ?  "Favorites" : "History", style: TextStyle(color: textcol, fontFamily: 'Poppins-Medium', fontSize: 24),),
         centerTitle: true,
         actions: <Widget>[
           Container(
@@ -97,6 +64,11 @@ class _NavigationState extends State<Navigation> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
                       ProfileScreen()));
                 }
+                if (result == 1) {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushReplacementNamed( "/");
+                }
+
               },
 
               itemBuilder: (BuildContext context) {
@@ -107,16 +79,30 @@ class _NavigationState extends State<Navigation> {
                   ),
                   PopupMenuItem(
                     value: 1,
-                    child: Text('Dark/Light'),
+                    child: Text('Log out'),
                   ),
                 ];
               },
             ),
-          )
+          ),IconButton(
+              icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
+                  ? Icons.dark_mode
+                  : Icons.light_mode),
+              color: (MyApp.themeNotifier.value == ThemeMode.light
+                  ? Color.fromRGBO(0, 62, 41, 1)
+                  : Colors.white),
+
+              onPressed: () {
+                MyApp.themeNotifier.value =
+                MyApp.themeNotifier.value == ThemeMode.light
+                    ? ThemeMode.dark
+                    : ThemeMode.light;
+                print(MyApp.themeNotifier.toString());
+              })
         ],
       ),
 
-      body: screens[_selectedIndex],
+      body: _selectedIndex < 1 ? Home() : ( _selectedIndex == 1 ? Favorites() : History()),
 
       bottomNavigationBar: Container(
           child: SizedBox(
@@ -166,7 +152,9 @@ class _NavigationState extends State<Navigation> {
                         ),BottomNavigationBarItem(
                             icon: Padding(
                               padding: EdgeInsets.only(bottom: 0.0),
-                              child: IconButton( icon: Icon(Icons.history), onPressed: () {showHistory(); },),
+                              child: IconButton( icon: Icon(Icons.history), onPressed: () {setState(() {
+                                _selectedIndex = 2;
+                              });},),
                             ),label: 'History'
                         ),
                       ],

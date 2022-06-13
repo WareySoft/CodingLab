@@ -2,6 +2,7 @@
 import 'dart:ffi';
 import 'package:codinglab/pages/cardpay.dart';
 import 'package:flutter/material.dart';
+import 'package:codinglab/main.dart';
 
 // void main() {
 //   runApp(MaterialApp(
@@ -15,14 +16,20 @@ import 'package:flutter/material.dart';
 // }
 
 class Reserve extends StatefulWidget {
-  const Reserve({Key? key}) : super(key: key);
+  var hotelName;
+  Reserve(String hotelName){
+    this.hotelName = hotelName;
+  }
 
   @override
-  _ReserveState createState() => _ReserveState();
+  _ReserveState createState() => _ReserveState(hotelName);
 }
 
 class _ReserveState extends State<Reserve> {
-
+  var hotelName;
+  _ReserveState(String hotelName){
+    this.hotelName = hotelName;
+  }
 
   TimeOfDay time = TimeOfDay(hour: (10), minute: 30);
   DateTime date = DateTime(2022, 09, 25);
@@ -46,19 +53,22 @@ class _ReserveState extends State<Reserve> {
     final hours = time.hour.toString().padLeft(2, '0');
     final minutes = time.minute.toString().padLeft(2, '0');
 
+    Color textcol = MyApp.themeNotifier.value == ThemeMode.light ? Colors.black : Colors.white;
+    Color boxcol = MyApp.themeNotifier.value == ThemeMode.light ? Color.fromRGBO(221, 242, 235, 1) : Color.fromRGBO(134, 181, 165, 1);
+
+
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
         ),
-        title: Text("Book table", style: TextStyle(color: Color.fromRGBO(9, 10, 10, 1), fontFamily: 'Poppins-Medium', fontSize: 24),),
+        title: Text("Book table", style: TextStyle(color: textcol, fontFamily: 'Poppins-Medium', fontSize: 24),),
         centerTitle: true,
       ),
 
@@ -69,25 +79,25 @@ class _ReserveState extends State<Reserve> {
             Positioned(
               top: height*0.05-20, right: width*0.28,
               child: Text('Time',
-                style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Medium',fontSize: 23, ),
+                style: TextStyle(color: textcol, fontFamily: 'Poppins-Medium',fontSize: 23, ),
               ),),
             Positioned(
               top: height*0.05-20, left: width*0.07,
               child: Text('Date',
-                style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Medium',fontSize: 23,  ),
+                style: TextStyle(color: textcol, fontFamily: 'Poppins-Medium',fontSize: 23,  ),
               ),),
 
             Positioned(
               top: table_h-105, left: width*0.07,
               child: Text('Choose table',
-                style: TextStyle(color: Colors.black, fontFamily: 'Poppins-Medium',fontSize: 23,  ),
+                style: TextStyle(color: textcol, fontFamily: 'Poppins-Medium',fontSize: 23,  ),
               ),),
             Positioned(
               top: table_h-70, left: width*0.07, right: width*0.07,
-              child: const Divider(
+              child:  Divider(
                 height: 10,
                 thickness: 1,
-                color: Colors.black,
+                color: textcol,
               ),),
 
 
@@ -114,7 +124,7 @@ class _ReserveState extends State<Reserve> {
                           date = newDate;
                         });
                       },
-                      style: TextStyle(fontSize: 19, color: Color.fromRGBO(28, 36, 57, 1), fontFamily: 'Poppins-Medium', ),
+                      style: TextStyle(fontSize: 19, color: textcol, fontFamily: 'Poppins-Medium', ),
 
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.calendar_today,color: Colors.grey,),
@@ -127,7 +137,7 @@ class _ReserveState extends State<Reserve> {
                           ),
                         ),
 
-                        fillColor: Color.fromRGBO(221, 242, 235, 1),
+                        fillColor: boxcol,
                         filled: true,
                         contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                       ),
@@ -149,7 +159,7 @@ class _ReserveState extends State<Reserve> {
                           time = newTime;
                         });
                       },
-                      style: TextStyle(fontSize: 19, color: Color.fromRGBO(28, 36, 57, 1), fontFamily: 'Poppins-Medium', ),
+                      style: TextStyle(fontSize: 19, color: textcol, fontFamily: 'Poppins-Medium', ),
 
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.access_time,color: Colors.grey,),
@@ -162,7 +172,7 @@ class _ReserveState extends State<Reserve> {
                           ),
                         ),
 
-                        fillColor: Color.fromRGBO(221, 242, 235, 1),
+                        fillColor: boxcol,
                         filled: true,
                         contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                       ),
@@ -262,6 +272,7 @@ class _ReserveState extends State<Reserve> {
             chairBuilder(table_w +70,bigTable_h + 60,z,"left"),
             chairBuilder(table_w +70,bigTable_h + 60,z,"right"),
 
+
             Positioned(
               bottom: 20, right: table_w -50 , left: table_w -50,
 
@@ -272,29 +283,50 @@ class _ReserveState extends State<Reserve> {
                     borderRadius: BorderRadius.circular(10.0),
 
                   ),),
-                child: const Padding(
-                  padding: EdgeInsets.fromLTRB(110, 13, 110, 13),
+                child:  Padding(
+                  padding: EdgeInsets.fromLTRB(width*0.27, 13, width*0.27, 13),
                   child: Text('Reserve', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                 ),
                 onPressed: () {
-                  String total = "";
-                  if(x){
-                    print("Table 1 reserved");
-                    total += "1,";
-                  }
-                  if(y){
-                    print("Table 2 reserved");
-                    total += "2,";
-                  }
-                  if(z){
-                    print("Table 3 reserved");
-                    total += "3";
-                  }
-                  String data = "${date.day}/${date.month}/${date.year}";
-                  String time = "${hours}:${minutes}";
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Prepayment', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: textcol,)),
+                        content: Text(
+                            'The deposit for booking a table will be 2000T', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: textcol,)
+                        ),
+                        actions: [
+                          TextButton(
+                            child: Text('Cancel', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: textcol,)),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          TextButton(
+                            child: Text('Ok', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: textcol,)),
+                            onPressed: () {
+                              String total = "";
+                              if(x){
+                                print("Table 1 reserved");
+                                total += "1,";
+                              }
+                              if(y){
+                                print("Table 2 reserved");
+                                total += "2,";
+                              }
+                              if(z){
+                                print("Table 3 reserved");
+                                total += "3";
+                              }
+                              String data = "${date.day}/${date.month}/${date.year}";
+                              String time = "${hours}:${minutes}";
 
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                      CardPay(total, time, data)));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                  CardPay(total, time, data, hotelName)));
+                            },
+                          ),
+
+                        ],
+                      )
+                  );
                 },
 
               ),
@@ -310,6 +342,8 @@ class _ReserveState extends State<Reserve> {
 
 
 Positioned chairBuilder(var l, var t, bool q, String pos){
+  Color boxcol = MyApp.themeNotifier.value == ThemeMode.light ? Color.fromRGBO(221, 242, 235, 1) : Color.fromRGBO(134, 181, 165, 0.6);
+
   if( pos == "left"){
     return Positioned(
       left: l,top: t,
@@ -320,7 +354,7 @@ Positioned chairBuilder(var l, var t, bool q, String pos){
         decoration: new BoxDecoration(
             border: Border.all(color: Color.fromRGBO(0, 62, 41, 0.6) ,),
             borderRadius: new BorderRadius.circular(8.0),
-            color: q ? Color.fromRGBO(102, 186, 158, 1) : Color.fromRGBO(221, 242, 235, 1)
+            color: q ? Color.fromRGBO(102, 186, 158, 1) : boxcol
         ),
       ),
     );
@@ -335,7 +369,7 @@ Positioned chairBuilder(var l, var t, bool q, String pos){
         decoration: new BoxDecoration(
           border: Border.all(color: Color.fromRGBO(0, 62, 41, 0.6) ,),
           borderRadius: new BorderRadius.circular(8.0),
-          color: q ? Color.fromRGBO(102, 186, 158, 1) : Color.fromRGBO(221, 242, 235, 1),
+          color: q ? Color.fromRGBO(102, 186, 158, 1) : boxcol,
 
         ),
       ),

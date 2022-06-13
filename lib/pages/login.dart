@@ -36,6 +36,9 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery. of(context). size. width;
+    double height = MediaQuery. of(context). size. height;
+
     return Scaffold(
         backgroundColor: Color.fromRGBO(229, 229, 229, 1.0),
         appBar: AppBar(
@@ -58,7 +61,7 @@ class _LoginState extends State<Login> {
 
               Padding(
                 child: Text("Log in", style: TextStyle(color: Color.fromRGBO(9, 10, 10, 1), fontFamily: 'Poppins-Medium', fontSize: 24),),
-                padding: EdgeInsets.only(top:10,left:105),
+                padding: EdgeInsets.only(top:10,left:width*0.244),
               ),
 
             ],
@@ -68,7 +71,7 @@ class _LoginState extends State<Login> {
         /////////////////////////////////////////////////////////////////////////////////
 
         body: SingleChildScrollView( child: Center(child: Padding(
-            padding: EdgeInsets.fromLTRB(30, 30, 30, 50),
+            padding: EdgeInsets.fromLTRB(30, 20, 30, 50),
             child: Column(children: [
               SizedBox( // <-- SEE HERE
                 width: 600,
@@ -89,7 +92,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
 
-              SizedBox(height: 15),
+              SizedBox(height: height*0.022),
 
               SizedBox( // <-- SEE HERE
                 width: 600,
@@ -113,19 +116,19 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: height*0.0074),
               Row(
                 children: [
                   TextButton(
                     onPressed: () {
-                      //forgot password page
+                      FirebaseAuth.instance.sendPasswordResetEmail(email: nameController.text.trim() );
                     },
                     child: const Text('Forgot Password?', style:TextStyle(fontFamily: 'Poppins-Medium',fontSize: 14,fontWeight: FontWeight.bold, color: Color.fromRGBO(0, 62, 41, 1),),),
                   ),
                 ],
               ),
 
-              SizedBox(height:25),
+              SizedBox(height:height*0.037),
 
               SizedBox(
                 width: 600,
@@ -136,8 +139,8 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.circular(10.0),
 
                     ),),
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(110, 13, 110, 13),
+                  child:  Padding(
+                    padding: EdgeInsets.fromLTRB(width *0.268, 13, width *0.268, 13),
                     child: Text('Log in', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                   ),
                   onPressed: () {
@@ -149,14 +152,32 @@ class _LoginState extends State<Login> {
                       Navigator.pushReplacementNamed(context, "/navigation");
 
                     }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
+                      String text = error.toString().replaceAll(RegExp('\\[.*?\\]'), '');
+                      final snackBar = SnackBar(
+                        content: Container(
+                          child: Text(
+                            text,
+                            style: TextStyle(fontSize: 24),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        backgroundColor: Colors.grey,
+                        duration: Duration(seconds: 2),
+                        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
+                        behavior: SnackBarBehavior.floating,
+                        elevation: 0,
+
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
                     } );
 
                   },
 
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: height*0.015),
               Row(
                 children: <Widget>[
                   const Text(
@@ -175,7 +196,7 @@ class _LoginState extends State<Login> {
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
-              SizedBox(height: 15),
+              SizedBox(height: height*0.022),
               Row(
                   children: const [
                     Expanded(
@@ -191,7 +212,7 @@ class _LoginState extends State<Login> {
                     ),
                   ]
               ),
-              SizedBox(height: 40),
+              SizedBox(height: height*0.059),
               SizedBox(
                 width: 600,
                 child: OutlinedButton(
@@ -212,7 +233,7 @@ class _LoginState extends State<Login> {
                   onPressed: () {},
                 ),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: height*0.022),
               SizedBox(
                 width: 600,
                 child: OutlinedButton(

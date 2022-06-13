@@ -12,20 +12,22 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery. of(context). size. height;
+
     return Scaffold(
         backgroundColor: Color.fromRGBO(0, 62, 41, 1.0),
 
         body: Center(child: Column(children: [
           Padding(
             child: Image.asset('assets/logo.png', height: 200, width: 250,fit: BoxFit.fitWidth,),
-            padding: EdgeInsets.only(top:100, right: 5),
+            padding: EdgeInsets.only(top:height*0.14, right: 5),
           ),
 
           Padding(padding: EdgeInsets.only(top:10),),
           Text("Virtual Order", style: TextStyle(color: Colors.white, fontStyle: FontStyle.normal, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.bold, fontSize: 42),),
 
           Container(
-            margin: const EdgeInsets.fromLTRB(0,100 , 0 , 10 ),
+            margin:  EdgeInsets.fromLTRB(0,height*0.14 , 0 , 10 ),
             child: ElevatedButton(
               onPressed: (){
                 Navigator.pushReplacementNamed(context, "/signup");
@@ -56,7 +58,7 @@ class _WelcomeState extends State<Welcome> {
               onPressed: (){
                 Navigator.pushReplacementNamed(context, "/login");
               },
-              height: 50,
+              height: height*0.074,
               child: Text('  Log in  ', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, ), ),
               shape: Border(
                   bottom: BorderSide(color: Colors.white70, width: 1)

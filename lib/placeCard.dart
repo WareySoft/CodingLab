@@ -1,7 +1,8 @@
 import 'package:codinglab/pages/menu.dart';
 import 'package:flutter/material.dart';
-
+//var name ='';
 Widget placeCard(BuildContext context, String imgUrl, String hotelName, String location, int rating) {
+
 
   return Card(
     margin: EdgeInsets.only(right: 22.0),
@@ -17,7 +18,12 @@ Widget placeCard(BuildContext context, String imgUrl, String hotelName, String l
     elevation: 0.0,
     child: InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Menu()));
+        // TRIES to deliver nameofplace to cardpay
+        // 1 try
+        //name = hotelName;
+        // 2 try
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+            CarouselExample(hotelName)));
       },
       child: Container(
 

@@ -1,135 +1,108 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:codinglab/pages/navigation.dart';
+import 'package:codinglab/main.dart';
 
 
 
-// void main() {
-//   runApp(MaterialApp(
-//     debugShowCheckedModeBanner: false,
-//     theme: ThemeData(
-//       primarySwatch:  Colors.green,
-//     ),
-//     home: History(),
-//   ));
-// }
 
-
-class History extends StatefulWidget{
-  var length;
-  var array;
-  History(int length, List<Location> array){
-    this.length = length;
-    this.array = array;
-  }
+class History extends StatefulWidget {
+  const History({Key? key}) : super(key: key);
 
   @override
-  State<History> createState() => _HistoryState(length, array);
+  _HistoryState createState() => _HistoryState();
 
 
 }
 
 class _HistoryState extends State<History> {
-  var length;
-  var array;
-  _HistoryState(int length, List<Location> array){
-    this.length = length;
-    this.array = array;
+  FirebaseFirestore? _instance = FirebaseFirestore.instance;
+  FirebaseAuth? _auth = FirebaseAuth.instance;
+
+
+  List<dynamic>? pointlist ;
+
+  getdata() async{
+    await _instance?.collection('history').doc(_auth?.currentUser?.uid).get().then((value){
+      setState(() {
+
+        pointlist = List.from(value.data()!['history']);
+      });
+    });
   }
+  _HistoryState(){
+    getdata();
+    print("fdddsf");
+  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getdata();
+  // }
 
 
   @override
   Widget build(BuildContext context) {
+    Color textcolt =   MyApp.themeNotifier.value == ThemeMode.light ? Color.fromRGBO(0, 62, 41, 1): Colors.white;
+
     double width = MediaQuery. of(context). size. width;
     double height = MediaQuery. of(context). size. height;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*0.06, vertical: height * 0.04),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (int i=length-1; i>= 0; i--)
-                historyBuilder(context,array,i),
+    try{
+      return Scaffold(
 
 
-            ],
-          ),
 
-        ),
-      ),
-      bottomNavigationBar:  SizedBox(
-          height: 56,
-
-          child: Container(
-              margin: EdgeInsets.only(left: 16, right: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(40), topLeft: Radius.circular(40),
-                ),
-
-                boxShadow: [
-                  BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40.0),
-                  topRight: Radius.circular(40.0),
-                ),
-
-
-                child: SingleChildScrollView(
-                  child: BottomNavigationBar(
-                    iconSize: 26,
-                    showSelectedLabels: false,
-                    showUnselectedLabels: false,
-                    type: BottomNavigationBarType.fixed, // Fixed
-                    backgroundColor: Color.fromRGBO(0, 62, 41, 1),
-                    items:  [
-                      BottomNavigationBarItem(
-                          icon: Padding(
-                            padding: EdgeInsets.only(bottom: 0.0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: IconButton( icon: Icon(Icons.home_filled), onPressed: () {Navigator.pushReplacementNamed(context, "/navigation");},),
-                            ),
-                          ),label: 'Home'
-                      ),
-                      BottomNavigationBarItem(
-                          icon: Padding(
-                            padding: EdgeInsets.only(bottom: 0.0),
-                            child: IconButton( icon: Icon(Icons.bookmark), onPressed: () {Navigator.pushReplacementNamed(context, "/navigation");},),
-                          ),label: 'Favourite'
-                      ),BottomNavigationBarItem(
-                          icon: Padding(
-                            padding: EdgeInsets.only(bottom: 0.0),
-                            child: IconButton( icon: Icon(Icons.history), onPressed: () {},),
-                          ),label: 'History'
-                      ),
-                    ],
-                    unselectedItemColor: Colors.white38,
-                    selectedItemColor: Colors.white,
-
-                  ),
-                ),
-              )
+        body:  SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: width*0.033, vertical: height*0.028 ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (int i=pointlist!.length-1; i>= 0; i--)
+                  histBuilder(context,pointlist!,i),
+              ],
+            ),
           ),
         ),
-    );
 
 
+      );}
+    catch(e){
+      return Scaffold(
+
+
+
+          body:  Center(
+            child: Text("Loading...", style:TextStyle(fontFamily: 'Poppins-Medium',
+              fontSize: 30, color: textcolt,),),
+          )
+      );
+    }
   }
 }
 
 
-Column historyBuilder(BuildContext context, List<Location> array, int index){
+
+Column histBuilder(BuildContext context, List<dynamic> array, int index){
+  Color textcolt =   MyApp.themeNotifier.value == ThemeMode.light ? Color.fromRGBO(0, 62, 41, 1): Colors.white;
+
   double width = MediaQuery. of(context). size. width;
   double height = MediaQuery. of(context). size. height;
+
+  Map<String, String> urls = {
+    "Ritz Carlton": 'assets/places/ritz_carlt.jpg',
+    "Farhi": 'assets/places/farhi.jpg',
+    "Hilton": 'assets/places/hilton.jpg',
+    "Riviere": 'assets/places/la_riviere.jpg',
+    "Cloud": 'assets/places/cloud9.jpg',
+    "Barista": 'assets/places/barista.jpg',
+    "Wiskey": 'assets/places/wiskey.jpg',
+    "Mojo": 'assets/places/mojo.jpg',
+    "Ozen": 'assets/places/ozen.jpg',
+    "Becky": 'assets/places/st_regis.jpg',
+  };
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +115,7 @@ Column historyBuilder(BuildContext context, List<Location> array, int index){
               Radius.circular(15.0),
             ),
             image: DecorationImage(
-              image: AssetImage('assets/images/favorites1.jpeg'),
+              image: AssetImage("${urls[array[index]['nameofplace']]}"),
               fit: BoxFit.cover,
             )
         ),
@@ -176,14 +149,14 @@ Column historyBuilder(BuildContext context, List<Location> array, int index){
       SizedBox(
         height: height*0.01 ,
       ),
-      Text('NameOfPlace',style: TextStyle(color: Colors.black, fontSize: height*0.03)),
-      Divider(color: Colors.black54,thickness:0.65,),
+      Text(array[index]['nameofplace'],style: TextStyle(color: textcolt, fontSize: height*0.03)),
+      Divider(color: textcolt,thickness:0.65,),
 
-      Text('Date: ${array[index].date}',style: TextStyle(color: Colors.black, fontSize: height*0.025)),
-      Text('Time: ${array[index].time}',style: TextStyle(color: Colors.black, fontSize: height*0.025)),
-      Text('Tables: ${array[index].table}',style: TextStyle(color: Colors.black, fontSize: height*0.025)),
+      Text('Date: ${array[index]['date']}',style: TextStyle(color: textcolt, fontSize: height*0.025)),
+      Text('Time: ${array[index]['time']}',style: TextStyle(color: textcolt, fontSize: height*0.025)),
+      Text('Tables: ${array[index]['table']}',style: TextStyle(color: textcolt, fontSize: height*0.025)),
 
-      Divider(color: Colors.black54,thickness:0.65,),
+      Divider(color: textcolt,thickness:0.65,),
       SizedBox(
         height: height*0.03 ,
       ),
@@ -191,5 +164,3 @@ Column historyBuilder(BuildContext context, List<Location> array, int index){
     ],
   );
 }
-
-

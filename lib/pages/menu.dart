@@ -1,30 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:flutter/services.dart';
 import 'package:codinglab/pages/reserve.dart';
+import 'package:codinglab/main.dart';
 
-void main() {
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ),
-  );
-  runApp(Menu());
-}
-
-class Menu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: CarouselExample(),
-    );
-  }
-}
 
 class CarouselExample extends StatefulWidget {
+  var hotelName;
+  CarouselExample(String hotelName){
+    this.hotelName = hotelName;
+  }
+
   @override
-  _CarouselExampleState createState() => _CarouselExampleState();
+  _CarouselExampleState createState() => _CarouselExampleState(hotelName);
 }
 
 class _CarouselExampleState extends State<CarouselExample> {
@@ -37,12 +26,36 @@ class _CarouselExampleState extends State<CarouselExample> {
     'assets/images/menu_top_6.jpeg',
   ];
 
+  var hotelName;
+  _CarouselExampleState(hotelName){
+    this.hotelName = hotelName;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery. of(context). size. width ;
     double height = MediaQuery. of(context). size. height;
+    Color textcol = MyApp.themeNotifier.value == ThemeMode.light ? Colors.black : Colors.white;
+    Color textcol1 = MyApp.themeNotifier.value == ThemeMode.light ? Color.fromRGBO(0, 62, 41, 1) : Colors.white60;
+
+
+    final _auth = FirebaseAuth.instance;
+    int pressed = 0;
+
+
+    writeFavorite() async {
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      User? user = _auth.currentUser;
+
+      // adding history to db
+      await firebaseFirestore
+          .collection("users")
+          .doc(user!.uid)
+          .update({"favorites": FieldValue.arrayUnion([hotelName])});
+      pressed = 1;
+    }
+
     return Scaffold(
-        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -84,13 +97,46 @@ class _CarouselExampleState extends State<CarouselExample> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 10,),
                     Center(
-                      child: Text('Menu', style: TextStyle(fontSize: 24, fontFamily: 'Poppins-Medium', color: Colors.black),),
+                      child: Text('Menu', style: TextStyle(fontSize: 24, fontFamily: 'Poppins-Medium', color: textcol),),
                     ),
 
-                    Text('Most Populars', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', color: Colors.black),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Most Populars', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', color: textcol),),
+                        IconButton(
+                          onPressed: () {
+                            writeFavorite();
+                            if(pressed == 0){
+                              final snackBar = SnackBar(
+                                content: Container(
+                                  child: Text(
+                                    'Added to Favorites',
+                                    style: TextStyle(fontSize: 24),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                backgroundColor: Color.fromRGBO(0, 62, 41, 1),
+                                duration: Duration(seconds: 2),
+                                margin: EdgeInsets.symmetric(vertical: 270, horizontal: 60),
+                                behavior: SnackBarBehavior.floating,
+                                elevation: 0,
+
+                              );
+
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                          },
+                          icon: Icon(Icons.add),
+                          iconSize: 45,
+                          color: textcol,
+                        ) ,
+                      ],
+                    ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
 
                     //1111111111111111111111111111111111111111111111111111111111111111111111111111111111
@@ -109,11 +155,11 @@ class _CarouselExampleState extends State<CarouselExample> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Cookie Sandwich', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: Colors.black)),
+                          children:  [
+                            Text('Cookie Sandwich', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: textcol)),
                             Text('Shortbread, chocolate turtle', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
                             Text('cookies, and red velvet.', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
-                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: Color.fromRGBO(0, 62, 41, 1)))
+                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: textcol1))
                           ],
                         )
                       ],
@@ -143,11 +189,11 @@ class _CarouselExampleState extends State<CarouselExample> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Combo Burger', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: Colors.black)),
+                          children:  [
+                            Text('Combo Burger', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: textcol)),
                             Text('Shortbread, chocolate turtle', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
                             Text('cookies, and red velvet.', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
-                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: Color.fromRGBO(0, 62, 41, 1)))
+                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: textcol1))
                           ],
                         )
                       ],
@@ -177,11 +223,11 @@ class _CarouselExampleState extends State<CarouselExample> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Combo Sandwich', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: Colors.black)),
+                          children:  [
+                            Text('Combo Sandwich', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: textcol)),
                             Text('Shortbread, chocolate turtle', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
                             Text('cookies, and red velvet.', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
-                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: Color.fromRGBO(0, 62, 41, 1)))
+                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: textcol1))
                           ],
                         )
                       ],
@@ -190,7 +236,7 @@ class _CarouselExampleState extends State<CarouselExample> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text('Sea Foods', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', color: Colors.black),),
+                    Text('Sea Foods', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', color: textcol),),
                     const SizedBox(
                       height: 20,
                     ),
@@ -211,11 +257,11 @@ class _CarouselExampleState extends State<CarouselExample> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Oyster dish', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: Colors.black)),
+                          children:  [
+                            Text('Oyster dish', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: textcol)),
                             Text('Shortbread, chocolate turtle', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
                             Text('cookies, and red velvet.', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
-                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: Color.fromRGBO(0, 62, 41, 1)))
+                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: textcol1))
                           ],
                         )
                       ],
@@ -245,11 +291,11 @@ class _CarouselExampleState extends State<CarouselExample> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Oyster on ice', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: Colors.black)),
+                          children:  [
+                            Text('Oyster on ice', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: textcol)),
                             Text('Shortbread, chocolate turtle', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
                             Text('cookies, and red velvet.', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
-                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: Color.fromRGBO(0, 62, 41, 1)))
+                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: textcol1))
                           ],
                         )
                       ],
@@ -279,11 +325,11 @@ class _CarouselExampleState extends State<CarouselExample> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Shrimp Bowl', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: Colors.black)),
+                          children:  [
+                            Text('Shrimp Bowl', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 18, color: textcol)),
                             Text('Shortbread, chocolate turtle', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
                             Text('cookies, and red velvet.', style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, color: Colors.grey)),
-                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: Color.fromRGBO(0, 62, 41, 1)))
+                            Text('1400 ₸', style: TextStyle(fontSize: 18, fontFamily: 'Poppins-Medium', fontWeight: FontWeight.w800, color: textcol1))
                           ],
                         )
                       ],
@@ -306,7 +352,7 @@ class _CarouselExampleState extends State<CarouselExample> {
         foregroundColor: Colors.white,
         label: Text('  RESERVE  ', ),
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Reserve()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Reserve(hotelName)));
         },
 
       )

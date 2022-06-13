@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codinglab/pages/navigation.dart';
+import 'package:codinglab/main.dart';
+
 
 
 // void main()=> runApp(const MaterialApp(
@@ -51,6 +53,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery. of(context). size. width ;
+    double height = MediaQuery. of(context). size. height;
+    Color textcol = MyApp.themeNotifier.value == ThemeMode.light ? Colors.black : Colors.white;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit profile',),
@@ -60,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
-                Navigation()));
+                Navigation(0)));
           },
           icon: Icon(Icons.home),
         ) ,
@@ -71,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Stack(//Контейнер Stack позволяет располагать одни элементы поверх других.Контейнер Stack позволяет располагать одни элементы поверх других.
             children: [
               Container(
-                  height: 140,
+                  height: height*0.21,
                   width: double.maxFinite,
                   decoration: const BoxDecoration(
                     color: Color.fromRGBO(0, 62, 41, 1),
@@ -81,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 70, right: 20, left: 20),// суретке отступ устинен
+                padding: EdgeInsets.only(top: height*0.115, right: 20, left: 20),// суретке отступ устинен
 
 
                 child:  Column(
@@ -106,9 +112,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: height*0.015,
                     ),
-                    Text("Name", style:TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15, color: Colors.black,),),
+                    Text("Name", style:TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15, color: textcol,),),
 
                     TextField(
                       controller: userNameController,
@@ -124,9 +130,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: height*0.015,
                     ),
-                    Text("Phone Number", style:TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15, color: Colors.black,),),
+                    Text("Phone Number", style:TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15, color: textcol,),),
                     TextField(
                       controller: userPhoneController,
                       style: TextStyle(fontSize: 17, color: Colors.black, fontFamily: 'Poppins-Medium', ),
@@ -142,9 +148,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
 
                     SizedBox(
-                      height: 10.0,
+                      height: height*0.015,
                     ),
-                    Text("Password", style:TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15, color: Colors.black,),),
+                    Text("Password", style:TextStyle(fontFamily: 'Poppins-Medium',fontSize: 15, color: textcol,),),
                     TextField(
                       controller: userPasswordController,
                       style: TextStyle(fontSize: 17, color: Colors.black, fontFamily: 'Poppins-Medium', ),
@@ -162,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top:60.0, right: 15, left: 15),
                       child: SizedBox(
-                        width: 600,
+                        width: width,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromRGBO(0, 62, 41, 1),
@@ -170,8 +176,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderRadius: BorderRadius.circular(10.0),
 
                             ),),
-                          child: const Padding(
-                            padding: EdgeInsets.fromLTRB(110, 13, 110, 13),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(width*0.27, 13, width*0.27, 13),
                             child: Text('Update', style: TextStyle(fontFamily: 'Poppins-Medium',fontSize: 20.0, color: Color.fromRGBO(255, 255, 255, 1),),),
                           ),
                           onPressed: () {
@@ -186,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Positioned(
-                top: 170,
+                top: height*0.25,
                 left: MediaQuery.of(context).size.width*0.5+20,// иконканы ортага жылжыту ушин
                 child: Container(
                   height: 50,
